@@ -92,36 +92,54 @@
   var stage = document.getElementById('philosophyStage');
   var left = document.getElementById('philosophyLeft');
   var right = document.getElementById('philosophyRight');
-  var textInner = document.querySelector('.philosophy__text-inner');
+  var textInner = document.getElementById('philosophyTextInner');
+  var closing = document.getElementById('philosophyClosing');
 
   var isMobileLayout = window.matchMedia('(max-width: 780px)').matches;
 
   if (stage && left && right && !isMobileLayout) {
     var SPLIT_DISTANCE_VW = 26; // how far each half travels at full split
-    var TEXT_EXIT_SLIDE_VH = 70; // how far the text slides as it exits — enough to clear the viewport regardless of copy length
+    var SLIDE_VH = 70; // clears the viewport regardless of copy length
     var ticking = false;
 
     function easeInOut(t) {
       return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
     }
 
-    // Three sequential phases, driven by one continuous progress value:
-    //   0 - 0.5   split-in (images part, text is simply revealed behind them)
-    //   0.5 - 0.75 held fully split while the text slides out on its own
-    //   0.75 - 1  reunite (images close back over the now-empty gap)
-    // Nothing is simultaneous: the text finishes leaving before the
-    // images start closing again.
-    var TEXT_EXIT_END = 0.75;
+    function clamp01(t) {
+      return Math.max(0, Math.min(1, t));
+    }
+
+    // Six sequential phases, driven by one continuous progress value —
+    // nothing overlaps, each finishes before the next begins:
+    //   0.00 - 0.22  split-in (images part; quote/paragraph revealed behind them)
+    //   0.22 - 0.34  hold, quote/paragraph fully visible
+    //   0.34 - 0.50  quote/paragraph slides out on its own
+    //   0.50 - 0.66  closing line slides in on its own, after the above has left
+    //   0.66 - 0.82  hold, closing line fully visible
+    //   0.82 - 1.00  reunite (images close back over it)
+    var SPLIT_END = 0.22;
+    var TEXT_EXIT_START = 0.34;
+    var TEXT_EXIT_END = 0.50;
+    var CLOSING_ENTER_START = 0.50;
+    var CLOSING_ENTER_END = 0.66;
+    var REUNITE_START = 0.82;
 
     function splitFractionFor(progress) {
-      if (progress <= 0.5) return easeInOut(progress / 0.5);
-      if (progress <= TEXT_EXIT_END) return 1;
-      return easeInOut((1 - progress) / (1 - TEXT_EXIT_END));
+      if (progress <= SPLIT_END) return easeInOut(progress / SPLIT_END);
+      if (progress <= REUNITE_START) return 1;
+      return easeInOut((1 - progress) / (1 - REUNITE_START));
     }
 
     function textExitFractionFor(progress) {
-      if (progress <= 0.5) return 0;
-      if (progress <= TEXT_EXIT_END) return easeInOut((progress - 0.5) / (TEXT_EXIT_END - 0.5));
+      if (progress <= TEXT_EXIT_START) return 0;
+      if (progress <= TEXT_EXIT_END) return easeInOut((progress - TEXT_EXIT_START) / (TEXT_EXIT_END - TEXT_EXIT_START));
+      return 1;
+    }
+
+    function closingEnterFractionFor(progress) {
+      if (progress <= CLOSING_ENTER_START) return 0;
+      if (progress <= CLOSING_ENTER_END) return easeInOut((progress - CLOSING_ENTER_START) / (CLOSING_ENTER_END - CLOSING_ENTER_START));
       return 1;
     }
 
@@ -130,8 +148,7 @@
       var rect = stage.getBoundingClientRect();
       var viewportH = window.innerHeight;
       var scrollable = rect.height - viewportH;
-      var progress = scrollable > 0 ? (0 - rect.top) / scrollable : 0;
-      progress = Math.max(0, Math.min(1, progress));
+      var progress = scrollable > 0 ? clamp01((0 - rect.top) / scrollable) : 0;
 
       var split = splitFractionFor(progress);
       var offset = split * SPLIT_DISTANCE_VW;
@@ -141,7 +158,12 @@
 
       if (textInner) {
         var exitT = textExitFractionFor(progress);
-        textInner.style.transform = 'translateY(-' + (exitT * TEXT_EXIT_SLIDE_VH) + 'vh)';
+        textInner.style.transform = 'translateY(-' + (exitT * SLIDE_VH) + 'vh)';
+      }
+
+      if (closing) {
+        var enterT = closingEnterFractionFor(progress);
+        closing.style.transform = 'translateY(' + ((1 - enterT) * SLIDE_VH) + 'vh)';
       }
     }
 
