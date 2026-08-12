@@ -29,6 +29,25 @@
     });
   }
 
+  /* ---------------- Nav: Services dropdown (tap-to-toggle for touch) ---------------- */
+  document.querySelectorAll('.nav__dropdown-trigger').forEach(function (trigger) {
+    trigger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var dropdown = trigger.closest('.nav__dropdown');
+      var wasOpen = dropdown.classList.contains('is-open');
+      document.querySelectorAll('.nav__dropdown.is-open').forEach(function (d) {
+        d.classList.remove('is-open');
+      });
+      if (!wasOpen) dropdown.classList.add('is-open');
+      trigger.setAttribute('aria-expanded', String(!wasOpen));
+    });
+  });
+  document.addEventListener('click', function () {
+    document.querySelectorAll('.nav__dropdown.is-open').forEach(function (d) {
+      d.classList.remove('is-open');
+    });
+  });
+
   /* ---------------- Scroll-reveal intro animations ---------------- */
   var revealTargets = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && revealTargets.length) {
@@ -47,6 +66,49 @@
   } else {
     revealTargets.forEach(function (el) { el.classList.add('is-visible'); });
   }
+
+  /* ---------------- FAQ accordion: slide open/close ----------------
+     Native <details> can't animate height, and closing it hides content
+     via the UA stylesheet before a transition can run. So the details
+     element is forced permanently open at the DOM level, and open/closed
+     is instead tracked with .is-open while a wrapper around the answer
+     animates between height:0 and its measured scrollHeight. */
+  document.querySelectorAll('.faq-item').forEach(function (item) {
+    var summary = item.querySelector('summary');
+    if (!summary) return;
+
+    var content = document.createElement('div');
+    content.className = 'faq-item__content';
+    while (summary.nextSibling) {
+      content.appendChild(summary.nextSibling);
+    }
+    item.appendChild(content);
+    item.open = true;
+
+    summary.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (item.classList.contains('is-animating')) return;
+
+      if (item.classList.contains('is-open')) {
+        item.classList.add('is-animating');
+        content.style.height = content.scrollHeight + 'px';
+        requestAnimationFrame(function () {
+          item.classList.remove('is-open');
+          content.style.height = '0px';
+        });
+      } else {
+        item.classList.add('is-animating', 'is-open');
+        content.style.height = content.scrollHeight + 'px';
+      }
+
+      content.addEventListener('transitionend', function handler(e) {
+        if (e.propertyName !== 'height') return;
+        content.removeEventListener('transitionend', handler);
+        item.classList.remove('is-animating');
+        if (item.classList.contains('is-open')) content.style.height = 'auto';
+      });
+    });
+  });
 
   /* ---------------- Video lightbox ---------------- */
   var trigger = document.getElementById('heroVideoTrigger');

@@ -20,10 +20,30 @@
     <a class="nav__logo" href="#top">Satisfying Relationships</a>
 
     <nav class="nav__links" aria-label="Primary">
-      <a href="#philosophy">Approach</a>
-      <a href="#how-doug-helps">How Doug Helps</a>
-      <a href="#get-started">Get Started</a>
-      <a href="#about">About</a>
+      <div class="nav__dropdown">
+        <button class="nav__dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+          Services
+          <svg class="nav__dropdown-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="nav__dropdown-menu">
+          <a href="sex-therapy.html">Sex Therapy</a>
+          <a href="infidelity-recovery.html">Infidelity Recovery</a>
+          <a href="money-counseling.html">Money &amp; Relationship Counseling</a>
+        </div>
+      </div>
+      <div class="nav__dropdown">
+        <button class="nav__dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+          Locations
+          <svg class="nav__dropdown-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="nav__dropdown-menu">
+          <a href="texas.html">Texas</a>
+          <a href="colorado.html">Colorado</a>
+          <a href="louisiana.html">Louisiana</a>
+        </div>
+      </div>
+      <a href="about.html">About</a>
+      <a href="faq.html">FAQ</a>
     </nav>
 
     <a class="nav__contact" href="contact.html">Contact</a>
@@ -34,10 +54,16 @@
   </div>
 
   <div class="nav__mobile" id="navMobile">
-    <a href="#philosophy">Approach</a>
-    <a href="#how-doug-helps">How Doug Helps</a>
-    <a href="#get-started">Get Started</a>
-    <a href="#about">About</a>
+    <span class="nav__mobile-label">Services</span>
+    <a href="sex-therapy.html" class="nav__mobile-sublink">Sex Therapy</a>
+    <a href="infidelity-recovery.html" class="nav__mobile-sublink">Infidelity Recovery</a>
+    <a href="money-counseling.html" class="nav__mobile-sublink">Money &amp; Relationship Counseling</a>
+    <span class="nav__mobile-label">Locations</span>
+    <a href="texas.html" class="nav__mobile-sublink">Texas</a>
+    <a href="colorado.html" class="nav__mobile-sublink">Colorado</a>
+    <a href="louisiana.html" class="nav__mobile-sublink">Louisiana</a>
+    <a href="about.html">About</a>
+    <a href="faq.html">FAQ</a>
     <a href="contact.html">Contact</a>
   </div>
 </header>
@@ -258,7 +284,7 @@
   <section class="locations">
     <div class="wrap">
       <h2 class="section-heading reveal">Online Across Texas, Colorado, and Louisiana</h2>
-      <p class="locations__sub reveal">You meet by secure video or phone from somewhere private, wherever you are in the three states Doug is licensed to serve.</p>
+      <p class="locations__sub reveal">You meet by secure video from somewhere private, wherever you are in the three states Doug is licensed to serve.</p>
 
       <div class="locations__pills reveal">
         <a href="texas.html">Online Therapy in Texas</a>
