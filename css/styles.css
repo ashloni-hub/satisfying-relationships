@@ -858,7 +858,11 @@ a { color: inherit; text-decoration: none; }
 }
 .page-hero__media { position: absolute; inset: 0; z-index: 0; }
 .page-hero__bg { width: 100%; height: 100%; object-fit: cover; }
-.page-hero__scrim { position: absolute; inset: 0; background: rgba(10, 11, 14, 0.76); }
+.page-hero__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(8, 9, 11, 0.94) 0%, rgba(8, 9, 11, 0.82) 40%, rgba(8, 9, 11, 0.4) 68%, rgba(8, 9, 11, 0.05) 88%, rgba(8, 9, 11, 0) 100%);
+}
 .page-hero > .wrap { position: relative; z-index: 2; }
 .page-hero__eyebrow {
   font-family: var(--font-body);
@@ -869,10 +873,10 @@ a { color: inherit; text-decoration: none; }
   color: var(--color-accent-hero);
   margin-bottom: 16px;
 }
-.page-hero h1 { font-size: clamp(36px, 5vw, 56px); max-width: 18ch; margin: 0 auto 14px; color: #fff; }
+.page-hero h1 { font-size: clamp(36px, 5vw, 56px); max-width: none; white-space: nowrap; margin: 0 auto 14px; color: #fff; }
 .page-hero__h1--nowrap { max-width: none; white-space: nowrap; }
 @media (max-width: 560px) {
-  .page-hero__h1--nowrap { white-space: normal; font-size: clamp(30px, 8vw, 40px); }
+  .page-hero h1 { white-space: normal; font-size: clamp(30px, 8vw, 40px); }
 }
 .page-hero__sub { font-size: 17px; color: rgba(255, 255, 255, 0.86); max-width: 56ch; margin: 0 auto 34px; }
 .page-hero__actions { display: flex; flex-direction: column; align-items: center; gap: 12px; }
@@ -928,17 +932,17 @@ a { color: inherit; text-decoration: none; }
    BANNER — full-width highlighted strip
    ============================================================ */
 .banner {
-  background: #fafaf8;
+  background: #E9F6FC;
   padding: 28px 0;
   text-align: center;
 }
-.banner p { margin: 0; font-weight: 600; color: var(--color-text); }
+.banner p { margin: 0; font-weight: 600; font-size: 30px; color: var(--color-text); }
 
 /* ============================================================
    PLAIN LIST — bordered box of bullet points
    ============================================================ */
 .plain-list-block {
-  border: 1px solid var(--color-border);
+  background: #fafaf8;
   border-radius: var(--radius-lg);
   padding: clamp(28px, 4vw, 40px);
 }
@@ -953,19 +957,22 @@ a { color: inherit; text-decoration: none; }
   gap: 14px;
 }
 .plain-list li {
-  position: relative;
-  padding-left: 22px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
   color: var(--color-text-soft);
 }
-.plain-list li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.6em;
-  width: 7px;
-  height: 7px;
+.plain-list__icon {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background: var(--color-accent);
+  color: #fff;
+  margin-top: 1px;
 }
 
 /* ============================================================
