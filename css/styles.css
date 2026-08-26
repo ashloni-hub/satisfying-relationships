@@ -715,6 +715,14 @@ a { color: inherit; text-decoration: none; }
    ============================================================ */
 .get-started { padding: clamp(50px, 7vw, 100px) 0; }
 .get-started .section-heading { text-align: center; margin-bottom: clamp(44px, 6vw, 70px); }
+.get-started .section-heading:has(+ .get-started__intro) { margin-bottom: 14px; }
+.get-started__intro {
+  text-align: center;
+  color: var(--color-text-soft);
+  font-size: 17px;
+  max-width: 48ch;
+  margin: 0 auto clamp(36px, 5vw, 56px);
+}
 
 .steps__wrap {
   position: relative;
@@ -804,9 +812,45 @@ a { color: inherit; text-decoration: none; }
 .quiet-progress__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .quiet-progress__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,12,14,0.30) 0%, rgba(10,12,14,0.50) 100%); }
 
-.quiet-progress__content { position: relative; z-index: 1; padding: 0 24px; display: flex; flex-direction: column; align-items: center; }
+.quiet-progress__content { position: relative; z-index: 1; padding: 0 24px; max-width: 640px; display: flex; flex-direction: column; align-items: center; text-align: center; }
 .quiet-progress__content h2 { color: #fff; font-size: clamp(28px, 4vw, 44px); }
 .quiet-progress__content p { color: rgba(255,255,255,0.88); font-size: 17px; margin-bottom: 30px; }
+
+/* ============================================================
+   DOUG-ON-DEMAND BANNER — full-width photo, left-aligned text
+   over a left-to-right gradient for legibility
+   ============================================================ */
+.dod-banner {
+  position: relative;
+  min-height: 78svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  margin: clamp(50px, 7vw, 100px) 0;
+  color: #fff;
+}
+
+.dod-banner__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.dod-banner__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(10, 11, 14, 0.88) 0%, rgba(10, 11, 14, 0.74) 35%, rgba(10, 11, 14, 0.3) 65%, rgba(10, 11, 14, 0) 100%);
+}
+
+.dod-banner__content {
+  position: relative;
+  z-index: 1;
+  padding: 0 clamp(24px, 6vw, 64px);
+  max-width: 620px;
+  text-align: left;
+}
+.dod-banner__content h2 { color: #fff; font-size: clamp(28px, 4vw, 44px); }
+.dod-banner__content p { color: rgba(255, 255, 255, 0.9); font-size: 17px; margin-bottom: 22px; }
+
+@media (max-width: 780px) {
+  .dod-banner__scrim { background: linear-gradient(180deg, rgba(10, 11, 14, 0.3) 0%, rgba(10, 11, 14, 0.85) 55%, rgba(10, 11, 14, 0.92) 100%); }
+  .dod-banner { align-items: flex-end; padding-bottom: 40px; }
+}
 
 /* ============================================================
    LOCATIONS
@@ -1095,3 +1139,9 @@ a { color: inherit; text-decoration: none; }
   transition: background 0.2s var(--ease);
 }
 .lightbox__close:hover { background: rgba(255,255,255,0.28); }
+
+/* ============================================================
+   TEMP: welcome-video feature hidden — delete this block to restore it
+   ============================================================ */
+.hero__video { display: none; }
+.hero__content { padding-right: clamp(20px, 6vw, 64px); }
