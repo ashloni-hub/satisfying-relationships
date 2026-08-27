@@ -54,14 +54,29 @@
   </div>
 
   <div class="nav__mobile" id="navMobile">
-    <span class="nav__mobile-label">Services</span>
-    <a href="sex-therapy.html" class="nav__mobile-sublink">Sex Therapy</a>
-    <a href="infidelity-recovery.html" class="nav__mobile-sublink">Infidelity Recovery</a>
-    <a href="money-counseling.html" class="nav__mobile-sublink">Money &amp; Relationship Counseling</a>
-    <span class="nav__mobile-label">Locations</span>
-    <a href="texas.html" class="nav__mobile-sublink">Texas</a>
-    <a href="colorado.html" class="nav__mobile-sublink">Colorado</a>
-    <a href="louisiana.html" class="nav__mobile-sublink">Louisiana</a>
+    <a href="index.html">Home</a>
+    <div class="nav__mobile-group">
+      <button class="nav__mobile-label" type="button" aria-expanded="false">
+        Services
+        <svg class="nav__mobile-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="nav__mobile-submenu">
+        <a href="sex-therapy.html" class="nav__mobile-sublink">Sex Therapy</a>
+        <a href="infidelity-recovery.html" class="nav__mobile-sublink">Infidelity Recovery</a>
+        <a href="money-counseling.html" class="nav__mobile-sublink">Money &amp; Relationship Counseling</a>
+      </div>
+    </div>
+    <div class="nav__mobile-group">
+      <button class="nav__mobile-label" type="button" aria-expanded="false">
+        Locations
+        <svg class="nav__mobile-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="nav__mobile-submenu">
+        <a href="texas.html" class="nav__mobile-sublink">Texas</a>
+        <a href="colorado.html" class="nav__mobile-sublink">Colorado</a>
+        <a href="louisiana.html" class="nav__mobile-sublink">Louisiana</a>
+      </div>
+    </div>
     <a href="about.html">About</a>
     <a href="faq.html">FAQ</a>
     <a href="contact.html">Contact</a>
@@ -73,7 +88,7 @@
   <!-- ============ HERO ============ -->
   <section class="page-hero">
     <div class="page-hero__media" aria-hidden="true">
-      <img class="page-hero__bg" src="Images/hero-background2.jpg" alt="" role="presentation">
+      <img class="page-hero__bg" src="Images/dallas-tx-relationship-therapy.jpg" alt="" role="presentation">
       <div class="page-hero__scrim"></div>
     </div>
     <div class="wrap">
@@ -90,7 +105,7 @@
   <section class="content-block">
     <div class="wrap content-block__grid">
       <div class="content-block__image reveal">
-        <img class="content-block__img" src="Images/couple-split.jpg" alt="" role="presentation" loading="lazy">
+        <img class="content-block__img" src="Images/texas-online-couples-therapy.jpg" alt="" role="presentation" loading="lazy">
       </div>
       <div class="content-block__text reveal">
         <h2 class="section-heading">Therapy Across Texas, By Video</h2>
@@ -136,7 +151,7 @@
   <section class="content-block content-block--reverse">
     <div class="wrap content-block__grid">
       <div class="content-block__image reveal">
-        <img class="content-block__img" src="Images/good-fit.jpg" alt="" role="presentation" loading="lazy">
+        <img class="content-block__img" src="Images/texas-work-on.jpg" alt="" role="presentation" loading="lazy">
       </div>
       <div class="content-block__text reveal">
         <h2 class="section-heading">What We Work On</h2>
@@ -245,7 +260,7 @@
           <summary>Is therapy really online only?
             <span class="faq-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
           </summary>
-          <p>Yes, all sessions are by secure video. That means no commute, and you can meet from wherever in Texas is most private for you.</p>
+          <p>Sessions are primarily held over secure video. That means no commute, and you can meet from wherever in Texas is most private for you. If you are interested in booking an in-person session, we can discuss that during our first video session.</p>
         </details>
 
         <details class="faq-item">
@@ -289,8 +304,35 @@
 </main>
 
 <footer class="footer">
-  <div class="wrap footer__row">
-    <span class="footer__logo">Satisfying Relationships</span>
+  <div class="wrap footer__grid">
+    <div class="footer__brand">
+      <span class="footer__logo">Satisfying Relationships</span>
+      <p>Satisfying Relationships, PLLC</p>
+      <p>Texas &middot; Colorado &middot; Louisiana</p>
+      <p><a href="tel:8323644444">832.364.4444</a></p>
+      <p><a href="mailto:dklormand@gmail.com">dklormand@gmail.com</a></p>
+    </div>
+
+    <div class="footer__col">
+      <h3 class="footer__heading">Important Links</h3>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="sex-therapy.html">Sex Therapy</a>
+      <a href="infidelity-recovery.html">Infidelity Recovery</a>
+      <a href="money-counseling.html">Money &amp; Relationship Counseling</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Contact</a>
+    </div>
+
+    <div class="footer__col">
+      <h3 class="footer__heading">Locations</h3>
+      <a href="texas.html">Texas</a>
+      <a href="colorado.html">Colorado</a>
+      <a href="louisiana.html">Louisiana</a>
+    </div>
+  </div>
+
+  <div class="wrap footer__bottom">
     <span class="footer__meta">Online in Texas, Colorado &amp; Louisiana &middot; &copy; <span id="year"></span> Doug Lormand, LPC</span>
   </div>
 </footer>

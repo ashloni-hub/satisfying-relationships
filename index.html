@@ -54,14 +54,29 @@
   </div>
 
   <div class="nav__mobile" id="navMobile">
-    <span class="nav__mobile-label">Services</span>
-    <a href="sex-therapy.html" class="nav__mobile-sublink">Sex Therapy</a>
-    <a href="infidelity-recovery.html" class="nav__mobile-sublink">Infidelity Recovery</a>
-    <a href="money-counseling.html" class="nav__mobile-sublink">Money &amp; Relationship Counseling</a>
-    <span class="nav__mobile-label">Locations</span>
-    <a href="texas.html" class="nav__mobile-sublink">Texas</a>
-    <a href="colorado.html" class="nav__mobile-sublink">Colorado</a>
-    <a href="louisiana.html" class="nav__mobile-sublink">Louisiana</a>
+    <a href="index.html">Home</a>
+    <div class="nav__mobile-group">
+      <button class="nav__mobile-label" type="button" aria-expanded="false">
+        Services
+        <svg class="nav__mobile-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="nav__mobile-submenu">
+        <a href="sex-therapy.html" class="nav__mobile-sublink">Sex Therapy</a>
+        <a href="infidelity-recovery.html" class="nav__mobile-sublink">Infidelity Recovery</a>
+        <a href="money-counseling.html" class="nav__mobile-sublink">Money &amp; Relationship Counseling</a>
+      </div>
+    </div>
+    <div class="nav__mobile-group">
+      <button class="nav__mobile-label" type="button" aria-expanded="false">
+        Locations
+        <svg class="nav__mobile-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="nav__mobile-submenu">
+        <a href="texas.html" class="nav__mobile-sublink">Texas</a>
+        <a href="colorado.html" class="nav__mobile-sublink">Colorado</a>
+        <a href="louisiana.html" class="nav__mobile-sublink">Louisiana</a>
+      </div>
+    </div>
     <a href="about.html">About</a>
     <a href="faq.html">FAQ</a>
     <a href="contact.html">Contact</a>
@@ -299,7 +314,7 @@
   <section class="about" id="about">
     <div class="wrap about__grid">
       <div class="about__image reveal">
-        <img src="Images/doug-headshot.jpg" alt="Doug Lormand, LPC">
+        <img src="Images/meet-doug-lormand.jpg" alt="Doug Lormand, LPC">
       </div>
       <div class="about__content reveal">
         <h2 class="section-heading">About Doug Lormand, LPC</h2>
@@ -312,8 +327,35 @@
 </main>
 
 <footer class="footer">
-  <div class="wrap footer__row">
-    <span class="footer__logo">Satisfying Relationships</span>
+  <div class="wrap footer__grid">
+    <div class="footer__brand">
+      <span class="footer__logo">Satisfying Relationships</span>
+      <p>Satisfying Relationships, PLLC</p>
+      <p>Texas &middot; Colorado &middot; Louisiana</p>
+      <p><a href="tel:8323644444">832.364.4444</a></p>
+      <p><a href="mailto:dklormand@gmail.com">dklormand@gmail.com</a></p>
+    </div>
+
+    <div class="footer__col">
+      <h3 class="footer__heading">Important Links</h3>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="sex-therapy.html">Sex Therapy</a>
+      <a href="infidelity-recovery.html">Infidelity Recovery</a>
+      <a href="money-counseling.html">Money &amp; Relationship Counseling</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Contact</a>
+    </div>
+
+    <div class="footer__col">
+      <h3 class="footer__heading">Locations</h3>
+      <a href="texas.html">Texas</a>
+      <a href="colorado.html">Colorado</a>
+      <a href="louisiana.html">Louisiana</a>
+    </div>
+  </div>
+
+  <div class="wrap footer__bottom">
     <span class="footer__meta">Online in Texas, Colorado &amp; Louisiana &middot; &copy; <span id="year"></span> Doug Lormand, LPC</span>
   </div>
 </footer>

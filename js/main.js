@@ -29,6 +29,22 @@
     });
   }
 
+  /* ---------------- Nav: mobile Services/Locations collapse ---------------- */
+  document.querySelectorAll('.nav__mobile-label').forEach(function (label) {
+    label.addEventListener('click', function () {
+      var group = label.closest('.nav__mobile-group');
+      var wasOpen = group.classList.contains('is-open');
+      document.querySelectorAll('.nav__mobile-group.is-open').forEach(function (g) {
+        g.classList.remove('is-open');
+        g.querySelector('.nav__mobile-label').setAttribute('aria-expanded', 'false');
+      });
+      if (!wasOpen) {
+        group.classList.add('is-open');
+        label.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
   /* ---------------- Nav: Services dropdown (tap-to-toggle for touch) ---------------- */
   document.querySelectorAll('.nav__dropdown-trigger').forEach(function (trigger) {
     trigger.addEventListener('click', function (e) {
@@ -73,6 +89,47 @@
      element is forced permanently open at the DOM level, and open/closed
      is instead tracked with .is-open while a wrapper around the answer
      animates between height:0 and its measured scrollHeight. */
+  // Finishing a transition is driven by the 'transitionend' event, but that
+  // event depends on the browser actually running the animation (it won't
+  // fire if the tab is backgrounded/hidden mid-transition, or under some
+  // reduced-motion setups). A setTimeout fallback guarantees is-animating
+  // always clears, so an item can never get permanently stuck.
+  function runFaqTransition(item, content, onFinish) {
+    var done = false;
+    function finish() {
+      if (done) return;
+      done = true;
+      content.removeEventListener('transitionend', onEnd);
+      clearTimeout(timer);
+      item.classList.remove('is-animating');
+      onFinish();
+    }
+    function onEnd(e) {
+      if (e.propertyName === 'height') finish();
+    }
+    content.addEventListener('transitionend', onEnd);
+    var timer = setTimeout(finish, 400);
+  }
+
+  function closeFaqItem(item) {
+    var content = item.querySelector('.faq-item__content');
+    if (!item.classList.contains('is-open') || item.classList.contains('is-animating')) return;
+    item.classList.add('is-animating');
+    content.style.height = content.scrollHeight + 'px';
+    void content.offsetHeight; // force a reflow so the browser commits the px height before flipping to 0
+    item.classList.remove('is-open');
+    content.style.height = '0px';
+    runFaqTransition(item, content, function () {});
+  }
+
+  function openFaqItem(item, content) {
+    item.classList.add('is-animating', 'is-open');
+    content.style.height = content.scrollHeight + 'px';
+    runFaqTransition(item, content, function () {
+      if (item.classList.contains('is-open')) content.style.height = 'auto';
+    });
+  }
+
   document.querySelectorAll('.faq-item').forEach(function (item) {
     var summary = item.querySelector('summary');
     if (!summary) return;
@@ -90,23 +147,18 @@
       if (item.classList.contains('is-animating')) return;
 
       if (item.classList.contains('is-open')) {
-        item.classList.add('is-animating');
-        content.style.height = content.scrollHeight + 'px';
-        requestAnimationFrame(function () {
-          item.classList.remove('is-open');
-          content.style.height = '0px';
-        });
+        closeFaqItem(item);
       } else {
-        item.classList.add('is-animating', 'is-open');
-        content.style.height = content.scrollHeight + 'px';
-      }
+        // Only one answer open at a time within the same FAQ group.
+        var group = item.closest('.faq-group');
+        if (group) {
+          group.querySelectorAll('.faq-item.is-open').forEach(function (other) {
+            if (other !== item) closeFaqItem(other);
+          });
+        }
 
-      content.addEventListener('transitionend', function handler(e) {
-        if (e.propertyName !== 'height') return;
-        content.removeEventListener('transitionend', handler);
-        item.classList.remove('is-animating');
-        if (item.classList.contains('is-open')) content.style.height = 'auto';
-      });
+        openFaqItem(item, content);
+      }
     });
   });
 

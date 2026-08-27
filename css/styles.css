@@ -263,14 +263,36 @@ a { color: inherit; text-decoration: none; }
 }
 .nav__mobile a:hover { background: var(--color-accent-soft); }
 
+.nav__mobile-group { display: flex; flex-direction: column; }
 .nav__mobile-label {
-  padding: 12px 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  background: none;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  padding: 12px 16px;
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--color-text-soft);
 }
+.nav__mobile-chevron { flex: none; transition: transform 0.25s var(--ease); }
+.nav__mobile-group.is-open .nav__mobile-chevron { transform: rotate(180deg); }
+
+.nav__mobile-submenu {
+  display: flex;
+  flex-direction: column;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s var(--ease);
+}
+.nav__mobile-group.is-open .nav__mobile-submenu { max-height: 240px; }
+
 .nav__mobile-sublink { padding-left: 28px !important; }
 
 /* Services dropdown — hover on desktop, tap-to-toggle (via .is-open) on touch */
@@ -714,6 +736,7 @@ a { color: inherit; text-decoration: none; }
    GET STARTED
    ============================================================ */
 .get-started { padding: clamp(50px, 7vw, 100px) 0; }
+.get-started--cta-only { padding-top: 0; }
 .get-started .section-heading { text-align: center; margin-bottom: clamp(44px, 6vw, 70px); }
 .get-started .section-heading:has(+ .get-started__intro) { margin-bottom: 14px; }
 .get-started__intro {
@@ -1019,6 +1042,10 @@ a { color: inherit; text-decoration: none; }
   margin-top: 1px;
 }
 
+/* "Learn more" links inside What We Work On bullets — match the bullet
+   color instead of the default underlined text-link treatment */
+.plain-list .text-link { color: var(--color-accent); border-bottom: none; padding-bottom: 0; }
+
 /* ============================================================
    COMPACT LIST — checklist without descriptions (icon + h3 only)
    ============================================================ */
@@ -1040,8 +1067,7 @@ a { color: inherit; text-decoration: none; }
 /* ============================================================
    FAQ ACCORDION
    ============================================================ */
-.faq-group { padding: clamp(30px, 4vw, 50px) 0; border-top: 1px solid var(--color-border); }
-.faq-group:first-of-type { border-top: none; }
+.faq-group { padding: clamp(30px, 4vw, 50px) 0; }
 .faq-group h2 { text-align: center; margin-bottom: clamp(28px, 4vw, 40px); }
 
 .faq-item { border-bottom: 1px solid var(--color-border); }
@@ -1083,7 +1109,36 @@ a { color: inherit; text-decoration: none; }
 /* ============================================================
    FOOTER
    ============================================================ */
-.footer { padding: 40px 0 50px; border-top: 1px solid var(--color-border); }
+.footer { padding: 60px 0 0; border-top: 1px solid var(--color-border); }
+.footer__grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: clamp(32px, 5vw, 64px);
+  padding-bottom: 44px;
+}
+@media (max-width: 700px) {
+  .footer__grid { grid-template-columns: 1fr; gap: 32px; }
+}
+
+.footer__brand .footer__logo { display: block; margin-bottom: 14px; }
+.footer__brand p { margin: 0 0 6px; font-size: 14.5px; color: var(--color-text-soft); }
+.footer__brand a { color: var(--color-text-soft); }
+.footer__brand a:hover { color: var(--color-accent); }
+
+.footer__heading {
+  font-family: var(--font-body);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 16px;
+}
+.footer__col { display: flex; flex-direction: column; gap: 10px; }
+.footer__col a { font-size: 14.5px; color: var(--color-text-soft); }
+.footer__col a:hover { color: var(--color-accent); }
+
+.footer__bottom { border-top: 1px solid var(--color-border); padding: 18px 0; }
 .footer__row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
 .footer__logo { font-family: var(--font-display); font-size: 17px; }
 .footer__meta { font-size: 13.5px; color: var(--color-text-soft); }
@@ -1139,6 +1194,75 @@ a { color: inherit; text-decoration: none; }
   transition: background 0.2s var(--ease);
 }
 .lightbox__close:hover { background: rgba(255,255,255,0.28); }
+
+/* ============================================================
+   CONTACT PAGE
+   ============================================================ */
+.contact-section { padding: clamp(50px, 7vw, 100px) 0; }
+.contact-grid {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: clamp(40px, 6vw, 90px);
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .contact-grid { grid-template-columns: 1fr; }
+}
+
+.contact-info h2 { margin-bottom: 20px; }
+.contact-info__org { font-weight: 600; margin: 0 0 4px; }
+.contact-info__states { color: var(--color-text-soft); margin: 0 0 28px; }
+.contact-info__details p { margin: 0 0 8px; }
+.contact-info__details span { font-weight: 600; margin-right: 6px; }
+.contact-info__details a { color: var(--color-text); }
+.contact-info__details a:hover { color: var(--color-accent); }
+
+.contact-info__intro-heading { font-size: 22px; margin: 0 0 8px; }
+.contact-info__intro { color: var(--color-text-soft); margin: 0 0 40px; }
+
+.contact-photo { align-self: start; width: 75%; margin-top: 48px; }
+
+.contact-form { display: flex; flex-direction: column; gap: 18px; }
+.contact-form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 560px) {
+  .contact-form__row { grid-template-columns: 1fr; }
+}
+.contact-form__field { display: flex; flex-direction: column; gap: 6px; }
+.contact-form__field label { font-size: 14px; font-weight: 600; color: var(--color-text); }
+.contact-form__required { color: var(--color-accent); }
+.contact-form__field input,
+.contact-form__field select,
+.contact-form__field textarea {
+  font-family: var(--font-body);
+  font-size: 15px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+.contact-form__field input:focus,
+.contact-form__field select:focus,
+.contact-form__field textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+.contact-form__field textarea { resize: vertical; min-height: 120px; }
+
+.contact-form__submit {
+  align-self: flex-start;
+  margin-top: 8px;
+  padding: 14px 32px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s var(--ease);
+}
+.contact-form__submit:hover { background: #3fa8dc; }
 
 /* ============================================================
    TEMP: welcome-video feature hidden — delete this block to restore it
