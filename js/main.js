@@ -83,6 +83,26 @@
     revealTargets.forEach(function (el) { el.classList.add('is-visible'); });
   }
 
+  /* ---------------- Plain-list row: match image height to first card ---------------- */
+  var plainListRows = document.querySelectorAll('.plain-list-row');
+  if (plainListRows.length) {
+    var syncPlainListRowImageHeight = function () {
+      plainListRows.forEach(function (row) {
+        var firstCard = row.querySelector('.plain-list-row__col .plain-list-block');
+        var image = row.querySelector('.plain-list-row__image');
+        if (!firstCard || !image) return;
+        if (window.innerWidth <= 900) {
+          image.style.height = '';
+          return;
+        }
+        image.style.height = firstCard.offsetHeight + 'px';
+      });
+    };
+    syncPlainListRowImageHeight();
+    window.addEventListener('load', syncPlainListRowImageHeight);
+    window.addEventListener('resize', syncPlainListRowImageHeight);
+  }
+
   /* ---------------- FAQ accordion: slide open/close ----------------
      Native <details> can't animate height, and closing it hides content
      via the UA stylesheet before a transition can run. So the details
