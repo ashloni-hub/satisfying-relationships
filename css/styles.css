@@ -378,6 +378,7 @@ a { color: inherit; text-decoration: none; }
   .nav__links { display: none; }
   .nav__contact { display: none; }
   .nav__toggle { display: flex; }
+  .nav__logo-mark { height: 16px; }
 }
 
 /* ============================================================
@@ -1047,7 +1048,7 @@ a { color: inherit; text-decoration: none; }
 .plain-list-row__image .content-block__img { height: 100%; }
 @media (max-width: 900px) {
   .plain-list-row { grid-template-columns: 1fr; }
-  .plain-list-row__image { position: static; max-width: 420px; margin: 0 auto; }
+  .plain-list-row__image { position: static; max-width: 420px; margin: 0 auto; order: -1; }
 }
 .plain-list-block h2 { text-align: center; margin-bottom: 20px; }
 .plain-list-block__intro { text-align: center; font-weight: 600; color: var(--color-text); margin-bottom: 20px; }
