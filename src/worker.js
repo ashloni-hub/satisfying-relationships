@@ -20,7 +20,37 @@ function redirect(origin, path) {
   return new Response(null, { status: 303, headers: { Location: origin + path } });
 }
 
-async function handleContact(request, env) {
+function sendResendEmail(env, payload) {
+  return fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+}
+
+async function sendAutoReply(env, firstName, email) {
+  const html = `
+    <p>Hi ${escapeHtml(firstName)},</p>
+    <p>Thanks for reaching out to Satisfying Relationships. Doug will be in touch within 24 hours.</p>
+    <p>&mdash; Satisfying Relationships, PLLC</p>
+  `;
+  try {
+    await sendResendEmail(env, {
+      from: env.CONTACT_FROM_EMAIL,
+      to: email,
+      subject: 'We got your message',
+      html,
+    });
+  } catch (err) {
+    // Best-effort — the visitor's confirmation email failing shouldn't
+    // affect the form submission itself, which already succeeded.
+  }
+}
+
+async function handleContact(request, env, ctx) {
   const origin = new URL(request.url).origin;
 
   let form;
@@ -61,19 +91,12 @@ async function handleContact(request, env) {
   `;
 
   try {
-    const resendResponse = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${env.RESEND_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: env.CONTACT_FROM_EMAIL,
-        to: env.CONTACT_TO_EMAIL,
-        reply_to: email,
-        subject: `New contact form submission from ${firstName} ${lastName}`,
-        html,
-      }),
+    const resendResponse = await sendResendEmail(env, {
+      from: env.CONTACT_FROM_EMAIL,
+      to: env.CONTACT_TO_EMAIL,
+      reply_to: email,
+      subject: `New contact form submission from ${firstName} ${lastName}`,
+      html,
     });
 
     if (!resendResponse.ok) {
@@ -83,15 +106,19 @@ async function handleContact(request, env) {
     return redirect(origin, '/contact.html?error=true');
   }
 
+  // Fire the visitor's confirmation email in the background — don't
+  // delay the redirect response waiting on it.
+  ctx.waitUntil(sendAutoReply(env, firstName, email));
+
   return redirect(origin, '/contact.html?sent=true');
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
     if (url.pathname === '/api/contact' && request.method === 'POST') {
-      return handleContact(request, env);
+      return handleContact(request, env, ctx);
     }
 
     return env.ASSETS.fetch(request);
