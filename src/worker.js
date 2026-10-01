@@ -90,6 +90,7 @@ async function handleContact(request, env, ctx) {
       hasKey: !!env.RESEND_API_KEY,
       hasTo: !!env.CONTACT_TO_EMAIL,
       hasFrom: !!env.CONTACT_FROM_EMAIL,
+      allBindingNames: Object.keys(env),
     });
     return redirect(origin, '/contact.html?error=true');
   }
