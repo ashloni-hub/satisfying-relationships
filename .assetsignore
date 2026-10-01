@@ -1,0 +1,10 @@
+.git
+.gitignore
+.assetsignore
+.DS_Store
+wrangler.jsonc
+src
+documents
+Home_in_progress.docx
+.wrangler
+node_modules

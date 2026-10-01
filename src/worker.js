@@ -1,10 +1,10 @@
-// Cloudflare Pages Function — handles POST /api/contact
-// Sends the contact form via Resend, then redirects back to contact.html
-// with a status flag the page reads to show a success/error message.
+// Cloudflare Worker entry point.
+// Handles POST /api/contact via Resend; everything else falls through
+// to the static site assets.
 //
-// Required runtime variables (Pages project settings → Runtime variables and secrets):
-//   RESEND_API_KEY    — Resend API key (Sending access)
-//   CONTACT_TO_EMAIL  — inbox that should receive submissions
+// Required runtime variables (Worker Settings → Variables and Secrets):
+//   RESEND_API_KEY     — Resend API key (Sending access)
+//   CONTACT_TO_EMAIL   — inbox that should receive submissions
 //   CONTACT_FROM_EMAIL — sender address on your verified Resend domain,
 //                        e.g. "Satisfying Relationships <contact@yourdomain.com>"
 
@@ -16,24 +16,23 @@ function escapeHtml(value) {
     .replace(/"/g, '&quot;');
 }
 
-function redirect(url) {
-  return new Response(null, { status: 303, headers: { Location: url } });
+function redirect(origin, path) {
+  return new Response(null, { status: 303, headers: { Location: origin + path } });
 }
 
-export async function onRequestPost(context) {
-  const { request, env } = context;
+async function handleContact(request, env) {
   const origin = new URL(request.url).origin;
 
   let form;
   try {
     form = await request.formData();
   } catch (err) {
-    return redirect(`${origin}/contact.html?error=true`);
+    return redirect(origin, '/contact.html?error=true');
   }
 
   // Honeypot — real visitors never fill this hidden field in.
   if (form.get('website')) {
-    return redirect(`${origin}/contact.html?sent=true`);
+    return redirect(origin, '/contact.html?sent=true');
   }
 
   const firstName = (form.get('firstName') || '').toString().trim();
@@ -44,11 +43,11 @@ export async function onRequestPost(context) {
   const message = (form.get('message') || '').toString().trim();
 
   if (!firstName || !lastName || !email || !phone || !message) {
-    return redirect(`${origin}/contact.html?error=true`);
+    return redirect(origin, '/contact.html?error=true');
   }
 
   if (!env.RESEND_API_KEY || !env.CONTACT_TO_EMAIL || !env.CONTACT_FROM_EMAIL) {
-    return redirect(`${origin}/contact.html?error=true`);
+    return redirect(origin, '/contact.html?error=true');
   }
 
   const html = `
@@ -78,11 +77,23 @@ export async function onRequestPost(context) {
     });
 
     if (!resendResponse.ok) {
-      return redirect(`${origin}/contact.html?error=true`);
+      return redirect(origin, '/contact.html?error=true');
     }
   } catch (err) {
-    return redirect(`${origin}/contact.html?error=true`);
+    return redirect(origin, '/contact.html?error=true');
   }
 
-  return redirect(`${origin}/contact.html?sent=true`);
+  return redirect(origin, '/contact.html?sent=true');
 }
+
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+
+    if (url.pathname === '/api/contact' && request.method === 'POST') {
+      return handleContact(request, env);
+    }
+
+    return env.ASSETS.fetch(request);
+  },
+};
