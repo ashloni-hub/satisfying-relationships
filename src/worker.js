@@ -57,13 +57,11 @@ async function handleContact(request, env, ctx) {
   try {
     form = await request.formData();
   } catch (err) {
-    console.error('contact form: formData() parse failed', err);
     return redirect(origin, '/contact.html?error=true');
   }
 
   // Honeypot — real visitors never fill this hidden field in.
   if (form.get('website')) {
-    console.error('contact form: honeypot triggered, treating as spam');
     return redirect(origin, '/contact.html?sent=true');
   }
 
@@ -75,13 +73,6 @@ async function handleContact(request, env, ctx) {
   const message = (form.get('message') || '').toString().trim();
 
   if (!firstName || !lastName || !email || !phone || !message) {
-    console.error('contact form: missing required field(s)', {
-      hasFirstName: !!firstName,
-      hasLastName: !!lastName,
-      hasEmail: !!email,
-      hasPhone: !!phone,
-      hasMessage: !!message,
-    });
     return redirect(origin, '/contact.html?error=true');
   }
 
@@ -90,7 +81,6 @@ async function handleContact(request, env, ctx) {
       hasKey: !!env.RESEND_API_KEY,
       hasTo: !!env.CONTACT_TO_EMAIL,
       hasFrom: !!env.CONTACT_FROM_EMAIL,
-      allBindingNames: Object.keys(env),
     });
     return redirect(origin, '/contact.html?error=true');
   }
