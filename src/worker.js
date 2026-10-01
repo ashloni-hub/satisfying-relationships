@@ -77,6 +77,11 @@ async function handleContact(request, env, ctx) {
   }
 
   if (!env.RESEND_API_KEY || !env.CONTACT_TO_EMAIL || !env.CONTACT_FROM_EMAIL) {
+    console.error('contact form: missing one or more env vars', {
+      hasKey: !!env.RESEND_API_KEY,
+      hasTo: !!env.CONTACT_TO_EMAIL,
+      hasFrom: !!env.CONTACT_FROM_EMAIL,
+    });
     return redirect(origin, '/contact.html?error=true');
   }
 
@@ -100,9 +105,12 @@ async function handleContact(request, env, ctx) {
     });
 
     if (!resendResponse.ok) {
+      const body = await resendResponse.text();
+      console.error('contact form: Resend API error', resendResponse.status, body);
       return redirect(origin, '/contact.html?error=true');
     }
   } catch (err) {
+    console.error('contact form: fetch to Resend threw', err);
     return redirect(origin, '/contact.html?error=true');
   }
 
