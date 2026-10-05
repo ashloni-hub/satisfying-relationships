@@ -23,6 +23,10 @@ function redirect(origin, path) {
 
 async function verifyTurnstile(env, token, remoteip) {
   if (!env.TURNSTILE_SECRET_KEY || !token) {
+    console.error('contact form: Turnstile check skipped', {
+      hasSecret: !!env.TURNSTILE_SECRET_KEY,
+      hasToken: !!token,
+    });
     return false;
   }
 
