@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
 <link rel="icon" type="image/png" href="Images/sr-logo.png">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1H8F3KCVY"></script>
 <script>
@@ -173,6 +174,8 @@
             <label for="message">Message <span class="contact-form__required" aria-hidden="true">*</span></label>
             <textarea id="message" name="message" rows="5" required></textarea>
           </div>
+
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAFOdGVuz9sbF9O7Q"></div>
 
           <button type="submit" class="contact-form__submit">Send Message</button>
         </form>
