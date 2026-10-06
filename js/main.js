@@ -385,5 +385,15 @@
     stepsUpdate();
     window.addEventListener('scroll', onStepsScroll, { passive: true });
     window.addEventListener('resize', onStepsScroll);
+
+    // If scrolling stops while a step is mid-reveal (translateY settling),
+    // there's no further scroll event to trigger a recompute, so the line
+    // can end up drawn to a badge's pre-settle position. Catch the moment
+    // each step finishes its reveal transition and do one more update.
+    stepsWrap.addEventListener('transitionend', function (e) {
+      if (e.propertyName === 'transform') {
+        stepsUpdate();
+      }
+    }, true);
   }
 })();
