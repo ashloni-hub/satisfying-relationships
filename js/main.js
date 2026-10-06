@@ -327,13 +327,13 @@
     }
 
     // Tracks the wrap's own vertical center against the viewport's center,
-    // so the line finishes filling exactly when the section is centered on
+    // so the line finishes filling just before the section is centered on
     // screen, rather than at an arbitrary fixed scroll offset.
     function stepsProgress(rect) {
       var vh = window.innerHeight;
       var center = rect.top + rect.height / 2;
       var start = vh * 0.9;
-      var end = vh / 2;
+      var end = vh * 0.58;
       var p = (start - center) / (start - end);
       return Math.max(0, Math.min(1, p));
     }
